@@ -31,9 +31,15 @@ router.get('/user/:id/activity', (req, res) => {
 
 router.get('/user/:id/average-sessions', (req, res) => {
   const userId = idx(req, _ => _.params.id);
+  console.log('userId:', userId);
   const userData = getUserAverageSession(Number(userId));
+  console.log('userData:', userData);
 
-  return handleNoUserData(res, userData);
+  if (userData === null) {
+    res.status(404).json({ message: 'User not found' });
+  } else {
+    res.json(userData);
+  }
 });
 
 router.get('/user/:id/performance', (req, res) => {
